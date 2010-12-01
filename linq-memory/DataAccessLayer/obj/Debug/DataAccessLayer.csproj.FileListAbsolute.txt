@@ -1,0 +1,7 @@
+c:\users\houp\documents\visual studio 2010\Projects\LinqShow\DataAccessLayer\bin\Debug\DataAccessLayer.dll
+c:\users\houp\documents\visual studio 2010\Projects\LinqShow\DataAccessLayer\bin\Debug\DataAccessLayer.pdb
+c:\users\houp\documents\visual studio 2010\Projects\LinqShow\DataAccessLayer\bin\Debug\MemoryDataSource.dll
+c:\users\houp\documents\visual studio 2010\Projects\LinqShow\DataAccessLayer\bin\Debug\MemoryDataSource.pdb
+c:\users\houp\documents\visual studio 2010\Projects\LinqShow\DataAccessLayer\obj\Debug\ResolveAssemblyReference.cache
+c:\users\houp\documents\visual studio 2010\Projects\LinqShow\DataAccessLayer\obj\Debug\DataAccessLayer.dll
+c:\users\houp\documents\visual studio 2010\Projects\LinqShow\DataAccessLayer\obj\Debug\DataAccessLayer.pdb

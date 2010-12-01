@@ -1,0 +1,55 @@
+﻿<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
+    <Schema Namespace="boring.bank.datasource" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityContainer Name="DataContext" p7:LazyLoadingEnabled="true" m:IsDefaultEntityContainer="true" xmlns:p7="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntitySet Name="Clients" EntityType="boring.bank.datasource.Client" />
+        <EntitySet Name="Transactions" EntityType="boring.bank.datasource.Transaction" />
+        <AssociationSet Name="FK_CreditClient" Association="boring.bank.datasource.FK_CreditClient">
+          <End Role="Client" EntitySet="Clients" />
+          <End Role="Transaction" EntitySet="Transactions" />
+        </AssociationSet>
+        <AssociationSet Name="FK_DebitClient" Association="boring.bank.datasource.FK_DebitClient">
+          <End Role="Client" EntitySet="Clients" />
+          <End Role="Transaction" EntitySet="Transactions" />
+        </AssociationSet>
+        <AssociationSet Name="Beneficiaries" Association="boring.bank.datasource.Beneficiaries">
+          <End Role="Client" EntitySet="Clients" />
+          <End Role="Client1" EntitySet="Clients" />
+        </AssociationSet>
+      </EntityContainer>
+      <EntityType Name="Client">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+        <NavigationProperty Name="Transactions" Relationship="boring.bank.datasource.FK_DebitClient" FromRole="Client" ToRole="Transaction" />
+        <NavigationProperty Name="Beneficiaries" Relationship="boring.bank.datasource.Beneficiaries" FromRole="Client1" ToRole="Client" />
+      </EntityType>
+      <EntityType Name="Transaction">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+        <Property Name="Amount" Type="Edm.Decimal" Nullable="false" Precision="19" Scale="4" />
+        <Property Name="ValueDate" Type="Edm.DateTime" Nullable="false" />
+        <Property Name="Currency" Type="Edm.String" Nullable="true" MaxLength="4" Unicode="true" FixedLength="false" />
+        <NavigationProperty Name="CreditClient" Relationship="boring.bank.datasource.FK_CreditClient" FromRole="Transaction" ToRole="Client" />
+        <NavigationProperty Name="DebitClient" Relationship="boring.bank.datasource.FK_DebitClient" FromRole="Transaction" ToRole="Client" />
+      </EntityType>
+      <Association Name="FK_CreditClient">
+        <End Role="Client" Type="boring.bank.datasource.Client" Multiplicity="1" />
+        <End Role="Transaction" Type="boring.bank.datasource.Transaction" Multiplicity="*" />
+      </Association>
+      <Association Name="FK_DebitClient">
+        <End Role="Client" Type="boring.bank.datasource.Client" Multiplicity="1" />
+        <End Role="Transaction" Type="boring.bank.datasource.Transaction" Multiplicity="*" />
+      </Association>
+      <Association Name="Beneficiaries">
+        <End Role="Client" Type="boring.bank.datasource.Client" Multiplicity="*" />
+        <End Role="Client1" Type="boring.bank.datasource.Client" Multiplicity="*" />
+      </Association>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

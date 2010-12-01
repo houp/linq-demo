@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="boring.bank.datasource.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="boringbankdatasourceStoreContainer">
+          <EntitySet Name="Beneficiaries" EntityType="boring.bank.datasource.Store.Beneficiaries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Client" EntityType="boring.bank.datasource.Store.Client" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Transaction" EntityType="boring.bank.datasource.Store.Transaction" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_BenClientId_ClientId" Association="boring.bank.datasource.Store.FK_BenClientId_ClientId">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Beneficiaries" EntitySet="Beneficiaries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BenId_ClientID" Association="boring.bank.datasource.Store.FK_BenId_ClientID">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Beneficiaries" EntitySet="Beneficiaries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditClient" Association="boring.bank.datasource.Store.FK_CreditClient">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DebitClient" Association="boring.bank.datasource.Store.FK_DebitClient">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Beneficiaries">
+          <Key>
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="BeneficiaryId" />
+          </Key>
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="BeneficiaryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CreditClient" Type="int" Nullable="false" />
+          <Property Name="DebitClient" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="ValueDate" Type="date" Nullable="false" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="4" />
+        </EntityType>
+        <Association Name="FK_BenClientId_ClientId">
+          <End Role="Client" Type="boring.bank.datasource.Store.Client" Multiplicity="1" />
+          <End Role="Beneficiaries" Type="boring.bank.datasource.Store.Beneficiaries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beneficiaries">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BenId_ClientID">
+          <End Role="Client" Type="boring.bank.datasource.Store.Client" Multiplicity="1" />
+          <End Role="Beneficiaries" Type="boring.bank.datasource.Store.Beneficiaries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beneficiaries">
+              <PropertyRef Name="BeneficiaryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditClient">
+          <End Role="Client" Type="boring.bank.datasource.Store.Client" Multiplicity="1" />
+          <End Role="Transaction" Type="boring.bank.datasource.Store.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="CreditClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DebitClient">
+          <End Role="Client" Type="boring.bank.datasource.Store.Client" Multiplicity="1" />
+          <End Role="Transaction" Type="boring.bank.datasource.Store.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="DebitClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="boring.bank.datasource" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="DataContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="boring.bank.datasource.Client" />
+          <EntitySet Name="Transactions" EntityType="boring.bank.datasource.Transaction" />
+          <AssociationSet Name="FK_CreditClient" Association="boring.bank.datasource.FK_CreditClient">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DebitClient" Association="boring.bank.datasource.FK_DebitClient">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="Beneficiaries" Association="boring.bank.datasource.Beneficiaries">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Client1" EntitySet="Clients" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Transactions" Relationship="boring.bank.datasource.FK_DebitClient" FromRole="Client" ToRole="Transaction" />
+          <NavigationProperty Name="Beneficiaries" Relationship="boring.bank.datasource.Beneficiaries" FromRole="Client1" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ValueDate" Type="DateTime" Nullable="false" />
+          <Property Name="Currency" Type="String" MaxLength="4" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="CreditClient" Relationship="boring.bank.datasource.FK_CreditClient" FromRole="Transaction" ToRole="Client" />
+          <NavigationProperty Name="DebitClient" Relationship="boring.bank.datasource.FK_DebitClient" FromRole="Transaction" ToRole="Client" />
+        </EntityType>
+        <Association Name="FK_CreditClient">
+          <End Role="Client" Type="boring.bank.datasource.Client" Multiplicity="1" />
+          <End Role="Transaction" Type="boring.bank.datasource.Transaction" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_DebitClient">
+          <End Role="Client" Type="boring.bank.datasource.Client" Multiplicity="1" />
+          <End Role="Transaction" Type="boring.bank.datasource.Transaction" Multiplicity="*" />
+        </Association>
+        <Association Name="Beneficiaries">
+          <End Role="Client" Type="boring.bank.datasource.Client" Multiplicity="*" />
+          <End Role="Client1" Type="boring.bank.datasource.Client" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="boringbankdatasourceStoreContainer" CdmEntityContainer="DataContext">
+          <EntitySetMapping Name="Clients"><EntityTypeMapping TypeName="boring.bank.datasource.Client"><MappingFragment StoreEntitySet="Client">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Transactions"><EntityTypeMapping TypeName="boring.bank.datasource.Transaction"><MappingFragment StoreEntitySet="Transaction">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Amount" ColumnName="Amount" />
+            <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
+            <ScalarProperty Name="Currency" ColumnName="Currency" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_CreditClient" TypeName="boring.bank.datasource.FK_CreditClient" StoreEntitySet="Transaction">
+            <EndProperty Name="Client">
+              <ScalarProperty Name="Id" ColumnName="CreditClient" />
+            </EndProperty>
+            <EndProperty Name="Transaction">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_DebitClient" TypeName="boring.bank.datasource.FK_DebitClient" StoreEntitySet="Transaction">
+            <EndProperty Name="Client">
+              <ScalarProperty Name="Id" ColumnName="DebitClient" />
+            </EndProperty>
+            <EndProperty Name="Transaction">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Beneficiaries" TypeName="boring.bank.datasource.Beneficiaries" StoreEntitySet="Beneficiaries">
+            <EndProperty Name="Client">
+              <ScalarProperty Name="Id" ColumnName="ClientId" />
+            </EndProperty>
+            <EndProperty Name="Client1">
+              <ScalarProperty Name="Id" ColumnName="BeneficiaryId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DataContext">
+        <EntityTypeShape EntityType="boring.bank.datasource.Client" Width="1.5" PointX="0.75" PointY="1" Height="1.7879850260416661" IsExpanded="true" />
+        <EntityTypeShape EntityType="boring.bank.datasource.Transaction" Width="1.5" PointX="3" PointY="1" Height="2.3648893229166656" IsExpanded="true" />
+        <AssociationConnector Association="boring.bank.datasource.FK_CreditClient" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.2484841918945309" />
+          <ConnectorPoint PointX="3" PointY="2.2484841918945309" />
+        </AssociationConnector>
+        <AssociationConnector Association="boring.bank.datasource.FK_DebitClient" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.5617420959472654" />
+          <ConnectorPoint PointX="3" PointY="1.5617420959472654" />
+        </AssociationConnector>
+        <AssociationConnector Association="boring.bank.datasource.Beneficiaries" ManuallyRouted="false">
+          <ConnectorPoint PointX="0.75" PointY="1.6293949318910252" />
+          <ConnectorPoint PointX="0.5" PointY="1.6293949318910252" />
+          <ConnectorPoint PointX="0.5" PointY="2.1711899789663454" />
+          <ConnectorPoint PointX="0.75" PointY="2.1711899789663454" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
